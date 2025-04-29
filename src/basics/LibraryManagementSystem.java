@@ -31,10 +31,14 @@ public class LibraryManagementSystem {
 		System.out.println(response);
 		
 		JsonPath js = ParseJson.parseJsonString(response);
-		String actualMsg=js.get("Msg");
+		String actualMsg = js.get("Msg");
 		String expectedMsg=TestProperties.getProperties().getProperty("addBookMsg");
 		//TestNG Assertion
 		Assert.assertEquals(actualMsg, expectedMsg, "Adding Book Failed");
+		System.out.println(js.get("ID").getClass());
+		
+		
+		//given().queryParam("ID", js.get("ID")).when().get("/Library/GetBook.php").then().assertThat().statusCode(200);
 
 	}
 }
