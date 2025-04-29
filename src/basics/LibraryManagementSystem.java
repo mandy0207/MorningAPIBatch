@@ -21,7 +21,7 @@ public class LibraryManagementSystem {
 	public void verifyLibraryE2ETests() throws IOException {
 
 		String isbn = UniqueGenerator.getUniqueString();
-		String aisle = UniqueGenerator.getFaker().code().gtin13();
+		String aisle = Integer.toString(UniqueGenerator.getRandomNumber());
 
 		RestAssured.baseURI = "http://216.10.245.166";
 		String response = given().log().all().header("Content-Type", "application/json")
@@ -35,10 +35,11 @@ public class LibraryManagementSystem {
 		String expectedMsg=TestProperties.getProperties().getProperty("addBookMsg");
 		//TestNG Assertion
 		Assert.assertEquals(actualMsg, expectedMsg, "Adding Book Failed");
-		System.out.println(js.get("ID").getClass());
+		String bookID=js.get("ID");
+		System.out.println(bookID);
 		
 		
-		//given().queryParam("ID", js.get("ID")).when().get("/Library/GetBook.php").then().assertThat().statusCode(200);
+		given().queryParam("ID", bookID).when().get("/Library/GetBook.php").then().assertThat().statusCode(200);
 
 	}
 }

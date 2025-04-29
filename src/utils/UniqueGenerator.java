@@ -1,6 +1,7 @@
 package utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -15,8 +16,13 @@ public class UniqueGenerator {
 	}
 	
 	public static String getUniqueString() {
-	    SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss"); 
-	    return "Ingrid" + ft.format(new Date()).replaceAll("[:/\\s]", "");
+		return "client"+getCurrentDateTime();
+	}
+	
+	public static String getCurrentDateTime() {
+		String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());  
+		  return date.replaceAll("[^0-9]", "");
+	    
 	}
 
 	
