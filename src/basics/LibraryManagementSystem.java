@@ -22,7 +22,8 @@ public class LibraryManagementSystem {
 
 		String isbn = UniqueGenerator.getUniqueString();
 		String aisle = Integer.toString(UniqueGenerator.getRandomNumber());
-
+		
+		//Add Book Call
 		RestAssured.baseURI = "http://216.10.245.166";
 		String response = given().log().all().header("Content-Type", "application/json")
 				.body(PayLoad.getBooksPayload(isbn, aisle)).when().post("/Library/Addbook.php").then().log().all()
@@ -30,8 +31,10 @@ public class LibraryManagementSystem {
 				.asString();
 		System.out.println(response);
 		
+		//Parsing required metadata
 		JsonPath js = ParseJson.parseJsonString(response);
 		String actualMsg = js.get("Msg");
+		
 		String expectedMsg=TestProperties.getProperties().getProperty("addBookMsg");
 		//TestNG Assertion
 		Assert.assertEquals(actualMsg, expectedMsg, "Adding Book Failed");
@@ -39,7 +42,21 @@ public class LibraryManagementSystem {
 		System.out.println(bookID);
 		
 		
-		given().queryParam("ID", bookID).when().get("/Library/GetBook.php").then().assertThat().statusCode(200);
+		
+		//Get Call
+		String bookDetail = given().queryParam("ID", bookID).when().get("/Library/GetBook.php").then().log().all().assertThat().statusCode(200).extract().response().asString();
+		 String actualIsbn=ParseJson.parseJsonString(bookDetail).getList("isbn").get(0).toString();
+		 String actualAisle=ParseJson.parseJsonString(bookDetail).getList("aisle").get(0).toString();
+		 String actualBookId= actualIsbn+actualAisle;
+		
+		 Assert.assertEquals(actualBookId, bookID, "Issue Found : Concationation of Isbn & Aisle is not making correct ID");
+		
+		//delete book call
+		
+		given().log().all().header("Content-Type", "application/json").body(PayLoad.deleteBookPayLoad(bookID)).
+		when().delete("Library/DeleteBook.php")
+		.then().log().all().assertThat().statusCode(200).body("msg",equalTo("book is successfully deleted"));
+		
 
 	}
 }
