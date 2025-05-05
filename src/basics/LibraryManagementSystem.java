@@ -4,10 +4,12 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import enums.ApiResources;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import utils.ParseJson;
@@ -26,8 +28,8 @@ public class LibraryManagementSystem {
 		//Add Book Call
 		RestAssured.baseURI = "http://216.10.245.166";
 		String response = given().log().all().header("Content-Type", "application/json")
-				.body(PayLoad.getBooksPayload(isbn, aisle)).when().post("/Library/Addbook.php").then().log().all()
-				.assertThat().statusCode(200).body("Msg", equalTo("successfully added")).extract().response()
+				.body(PayLoad.getBooksPayload(isbn, aisle)).when().post(ApiResources.postBook.getResource()).then().log().all()
+				.assertThat().statusCode(HttpURLConnection.HTTP_OK).body("Msg", equalTo("successfully added")).extract().response()
 				.asString();
 		System.out.println(response);
 		
@@ -44,7 +46,7 @@ public class LibraryManagementSystem {
 		
 		
 		//Get Call
-		String bookDetail = given().queryParam("ID", bookID).when().get("/Library/GetBook.php").then().log().all().assertThat().statusCode(200).extract().response().asString();
+		String bookDetail = given().queryParam("ID", bookID).when().get(ApiResources.getBook.getResource()).then().log().all().assertThat().statusCode(HttpURLConnection.HTTP_OK).extract().response().asString();
 		 String actualIsbn=ParseJson.parseJsonString(bookDetail).getList("isbn").get(0).toString();
 		 String actualAisle=ParseJson.parseJsonString(bookDetail).getList("aisle").get(0).toString();
 		 String actualBookId= actualIsbn+actualAisle;
@@ -54,8 +56,8 @@ public class LibraryManagementSystem {
 		//delete book call
 		
 		given().log().all().header("Content-Type", "application/json").body(PayLoad.deleteBookPayLoad(bookID)).
-		when().delete("Library/DeleteBook.php")
-		.then().log().all().assertThat().statusCode(200).body("msg",equalTo("book is successfully deleted"));
+		when().delete(ApiResources.deleteBook.getResource())
+		.then().log().all().assertThat().statusCode(HttpURLConnection.HTTP_OK).body("msg",equalTo("book is successfully deleted"));
 		
 
 	}

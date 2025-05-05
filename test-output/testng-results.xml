@@ -2,16 +2,16 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-05-02T08:12:13 IST" name="Default suite" finished-at="2025-05-02T08:12:17 IST" duration-ms="4033">
+  <suite started-at="2025-05-05T07:18:54 IST" name="Default suite" finished-at="2025-05-05T07:19:08 IST" duration-ms="13230">
     <groups>
     </groups>
-    <test started-at="2025-05-02T08:12:13 IST" name="Default test" finished-at="2025-05-02T08:12:17 IST" duration-ms="4033">
-      <class name="basics.LearnDeserialization">
-        <test-method signature="myFirstDeserializeTest()[pri:0, instance:basics.LearnDeserialization@a514af7]" started-at="2025-05-02T08:12:13 IST" name="myFirstDeserializeTest" finished-at="2025-05-02T08:12:17 IST" duration-ms="3933" status="PASS">
+    <test started-at="2025-05-05T07:18:54 IST" name="Default test" finished-at="2025-05-05T07:19:08 IST" duration-ms="13230">
+      <class name="basics.LibraryManagementSystem">
+        <test-method signature="verifyLibraryE2ETests()[pri:0, instance:basics.LibraryManagementSystem@661972b0]" started-at="2025-05-05T07:18:54 IST" name="verifyLibraryE2ETests" finished-at="2025-05-05T07:19:08 IST" duration-ms="13043" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- myFirstDeserializeTest -->
-      </class> <!-- basics.LearnDeserialization -->
+        </test-method> <!-- verifyLibraryE2ETests -->
+      </class> <!-- basics.LibraryManagementSystem -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>
